@@ -39,4 +39,6 @@ RUN apk add --no-cache --virtual .builddeps \
   && apk add glibc-2.27-r0.apk \
   && gem install grpc grpc-tools \
   && apk del .builddeps \
-&& rm /etc/apk/keys/sgerrand.rsa.pub glibc-2.27-r0.apk
+  && rm /etc/apk/keys/sgerrand.rsa.pub glibc-2.27-r0.apk
+
+WORKDIR /defs

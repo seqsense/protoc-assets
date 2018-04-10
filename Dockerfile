@@ -4,6 +4,8 @@ FROM alpine:3.7
 RUN apk add --no-cache \
     git \
     make \
+    nodejs \
+    nodejs-npm \
     python3 \
     ruby \
   && python3 -m ensurepip \
@@ -17,7 +19,7 @@ RUN apk add --no-cache \
     protobuf
 
 ENV GOPATH /go
-ENV PATH $GOPATH/bin:$PATH
+ENV PATH $GOPATH/bin:/node_modules/.bin/:$PATH
 
 RUN apk add --no-cache --virtual .builddeps \
     gcc \
@@ -25,8 +27,6 @@ RUN apk add --no-cache --virtual .builddeps \
     g++ \
     libstdc++ \
     make \
-    nodejs \
-    nodejs-npm \
     python3-dev \
     ruby-dev \
     ruby-irb \
@@ -38,10 +38,13 @@ RUN apk add --no-cache --virtual .builddeps \
     grpcio-tools \
   && npm install \
     google-protobuf \
+    grpc-tools \
   && wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://raw.githubusercontent.com/sgerrand/alpine-pkg-glibc/master/sgerrand.rsa.pub \
   && wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.27-r0/glibc-2.27-r0.apk \
   && apk add glibc-2.27-r0.apk \
-  && gem install grpc grpc-tools \
+  && gem install \
+    grpc \
+    grpc-tools \
   && apk del .builddeps \
   && rm /etc/apk/keys/sgerrand.rsa.pub glibc-2.27-r0.apk
 

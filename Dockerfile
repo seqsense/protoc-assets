@@ -1,22 +1,29 @@
-FROM alpine:3.7
+FROM alpine:3.13
 
 # Install interpreter languages and tools
 RUN apk add --no-cache \
     git \
+    libstdc++ \
     make \
     nodejs \
     nodejs-npm \
+    py3-setuptools \
     python3 \
     ruby \
-  && python3 -m ensurepip \
-  && rm -r /usr/lib/python*/ensurepip \
-  && pip3 install --upgrade pip setuptools \
-  && rm -r /root/.cache \
-  && ln -s `which python3` /usr/bin/python
+    ruby-etc
 
-# Install protobuf for each languages
+# Install protobuf and grpcio
 RUN apk add --no-cache \
-    protobuf
+    protobuf \
+    py3-grpcio \
+    py3-protobuf \
+    ruby-google-protobuf
+
+ARG GLIBC_VERSION=2.33-r0
+RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub \
+  && wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk \
+  && apk add --no-cache glibc-${GLIBC_VERSION}.apk \
+  && rm /etc/apk/keys/sgerrand.rsa.pub glibc-${GLIBC_VERSION}.apk
 
 ENV GOPATH /go
 ENV PATH $GOPATH/bin:/node_modules/.bin/:$PATH
@@ -25,27 +32,29 @@ RUN apk add --no-cache --virtual .builddeps \
     gcc \
     go \
     g++ \
-    libstdc++ \
+    linux-headers \
     make \
+    py3-pip \
     python3-dev \
     ruby-dev \
     ruby-irb \
     ruby-rdoc \
     wget \
-  && go get -u github.com/golang/protobuf/protoc-gen-go \
-  && pip3 install \
-    grpcio \
-    grpcio-tools \
+  && go get -u \
+    google.golang.org/protobuf/cmd/protoc-gen-go \
+    google.golang.org/grpc/cmd/protoc-gen-go-grpc \
+  && export GRPC_PYTHON_BUILD_EXT_COMPILER_JOBS=$(echo -e "$(nproc)\n16" | sort | head -n1) \
+  && export GRPCIO_VERSION=$(pip3 show grpcio | grep '^Version:' | sed 's|^\S*:\s*||') \
+  && python3 -m pip install \
+    grpcio-tools==${GRPCIO_VERSION} \
   && npm install \
     google-protobuf \
     grpc-tools \
-  && wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://raw.githubusercontent.com/sgerrand/alpine-pkg-glibc/master/sgerrand.rsa.pub \
-  && wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.27-r0/glibc-2.27-r0.apk \
-  && apk add glibc-2.27-r0.apk \
   && gem install \
-    grpc \
-    grpc-tools \
-  && apk del .builddeps \
-  && rm /etc/apk/keys/sgerrand.rsa.pub glibc-2.27-r0.apk
+    grpc:${GRPCIO_VERSION} \
+    grpc-tools:${GRPCIO_VERSION} \
+  && apk del .builddeps
+
+ENV LD_LIBRARY_PATH=/usr/lib:/lib
 
 WORKDIR /defs

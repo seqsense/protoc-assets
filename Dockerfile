@@ -28,26 +28,27 @@ RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/s
 ENV GOPATH /go
 ENV PATH $GOPATH/bin:/node_modules/.bin/:$PATH
 
+COPY go.mod go.sum /go/src/github.com/seqsense/protoc-assets/
+RUN cd /go/src/github.com/seqsense/protoc-assets/ \
+  && apk add --no-cache --virtual .builddeps go \
+  && go install google.golang.org/protobuf/cmd/protoc-gen-go \
+  && go install google.golang.org/grpc/cmd/protoc-gen-go-grpc \
+  && apk del .builddeps
+
 RUN apk add --no-cache --virtual .builddeps \
     gcc \
-    go \
     g++ \
     linux-headers \
-    make \
     py3-pip \
     python3-dev \
     ruby-dev \
     ruby-irb \
     ruby-rdoc \
-    wget \
-  && go get -u \
-    google.golang.org/protobuf/cmd/protoc-gen-go \
-    google.golang.org/grpc/cmd/protoc-gen-go-grpc \
-  && export GRPC_PYTHON_BUILD_EXT_COMPILER_JOBS=$(echo -e "$(nproc)\n16" | sort | head -n1) \
   && export GRPCIO_VERSION=$(pip3 show grpcio | grep '^Version:' | sed 's|^\S*:\s*||') \
+  && export GRPC_PYTHON_BUILD_EXT_COMPILER_JOBS=$(echo -e "$(nproc)\n16" | sort | head -n1) \
   && python3 -m pip install \
     grpcio-tools==${GRPCIO_VERSION} \
-  && npm install \
+  && npm install -g \
     google-protobuf \
     grpc-tools \
   && gem install \

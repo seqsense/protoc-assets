@@ -6,7 +6,7 @@ RUN apk add --no-cache \
     libstdc++ \
     make \
     nodejs \
-    nodejs-npm \
+    npm \
     py3-setuptools \
     python3 \
     ruby \

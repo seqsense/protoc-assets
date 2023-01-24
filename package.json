@@ -1,0 +1,6 @@
+{
+  "name": "protoc-assets",
+  "dependencies": {
+    "grpc-tools": "1.12.3"
+  }
+}

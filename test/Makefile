@@ -1,7 +1,13 @@
 DOCKER_RUN_PROTOC_ARGS := --rm -u $(shell id -u):$(shell id -g) -v $(PWD):/defs seqsense/protoc-assets
 
 .PHONY: all
-all: pb-generate-go pb-generate-py pb-generate-rb pb-generate-js
+all: show-protobuf-version pb-generate-go pb-generate-py pb-generate-rb pb-generate-js
+
+.PHONY: show-protobuf-version
+show-protobuf-version:
+	@docker run $(DOCKER_RUN_PROTOC_ARGS) apk list -I protoc \
+		2> /dev/null \
+		| sed -n 's/^protoc-\([0-9.]\+\)-.*$$/\1/p'
 
 .PHONY: pb-generate-go
 pb-generate-go:

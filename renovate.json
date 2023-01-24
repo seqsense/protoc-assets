@@ -14,16 +14,5 @@
       "depNameTemplate": "sgerrand/alpine-pkg-glibc",
       "versioningTemplate": "loose"
     }
-    {
-      "fileMatch": [
-        "^Dockerfile$"
-      ],
-      "matchStrings": [
-        "ARG GRPC_VERSION=(?<currentValue>.*)"
-      ],
-      "datasourceTemplate": "github-release",
-      "depNameTemplate": "grpc/grpcc",
-      "versioningTemplate": "semver"
-    }
   ]
 }

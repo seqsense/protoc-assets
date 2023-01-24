@@ -24,7 +24,7 @@ ENV PATH $GOPATH/bin:/node_modules/.bin/:$PATH
 
 COPY go.mod go.sum /go/src/github.com/seqsense/protoc-assets/
 
-ENV GRPC_VERSION=1.51.1
+ARG GRPC_VERSION=1.51.1
 
 RUN cd /go/src/github.com/seqsense/protoc-assets/ \
   && apk add --no-cache --virtual .builddeps \

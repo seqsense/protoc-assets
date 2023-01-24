@@ -15,7 +15,10 @@ RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/s
   && apk add --no-cache --force-overwrite glibc-${GLIBC_VERSION}.apk \
   && rm /etc/apk/keys/sgerrand.rsa.pub glibc-${GLIBC_VERSION}.apk
 
-ENV GOPATH=/go \
+ENV \
+  GEM_HOME=/usr/local \
+  GOPATH=/go \
+  LD_LIBRARY_PATH=/usr/lib:/lib \
   PATH=/go/bin:/node_modules/.bin/:$PATH
 
 COPY go.mod go.sum /go/src/github.com/seqsense/protoc-assets/
@@ -38,13 +41,10 @@ RUN apk add --no-cache --virtual .builddeps \
   && python3 -m pip install -r requirements.txt \
   && apk del .builddeps
 
-ENV GEM_HOME=/usr/local
 COPY Gemfile Gemfile.lock /
 RUN apk add --no-cache --virtual .builddeps \
     ruby-bundler \
   && bundle install \
   && apk del .builddeps
-
-ENV LD_LIBRARY_PATH=/usr/lib:/lib
 
 WORKDIR /defs

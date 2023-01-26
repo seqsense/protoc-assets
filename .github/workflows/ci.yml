@@ -16,8 +16,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Docker build
-        env:
-          DOCKER_BUILDKIT: 1
         run: make
       - name: Test protoc
         run: make test

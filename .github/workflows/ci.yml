@@ -4,13 +4,12 @@ on:
   push:
     branches:
       - master
-    tags:
-      - '*'
+  release: [published]
 
 jobs:
   build-image:
     permissions:
-      contents: read
+      contents: write
       packages: write
     runs-on: ubuntu-latest
     steps:
@@ -27,13 +26,24 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Deploy devel
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        if: github.event_name == 'push'
         run: |
           docker tag ghcr.io/seqsense/protoc-assets ghcr.io/seqsense/protoc-assets:devel
           docker push ghcr.io/seqsense/protoc-assets:devel
       - name: Deploy release
-        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+        if: github.event_name == 'release'
         run: |
           IMAGE_TAG=${GITHUB_REF#refs/tags/}
           docker tag ghcr.io/seqsense/protoc-assets ghcr.io/seqsense/protoc-assets:${IMAGE_TAG}
           docker push ghcr.io/seqsense/protoc-assets:${IMAGE_TAG}
+      - name: Write tool versions to release notes
+        if: github.event_name == 'release'
+        env: 
+        run: |
+          IMAGE_TAG=${GITHUB_REF#refs/tags/}
+          echo '## Tool versions' > ./notes
+          docker run ghcr.io/seqsense/protoc-assets cat /versions | xargs -L1 echo "-" >> ./notes
+          gh release edit \
+            --tag ${IMAGE_TAG} \
+            --title ${IMAGE_TAG} \
+            --notes-file ./notes

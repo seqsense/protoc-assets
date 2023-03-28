@@ -45,7 +45,6 @@ jobs:
           IMAGE_TAG=${GITHUB_REF#refs/tags/}
           echo '## Tool versions' > ./notes
           docker run ghcr.io/seqsense/protoc-assets cat /versions | xargs -L1 echo "-" >> ./notes
-          gh release edit \
-            --tag ${IMAGE_TAG} \
+          gh release edit ${IMAGE_TAG} \
             --title ${IMAGE_TAG} \
             --notes-file ./notes

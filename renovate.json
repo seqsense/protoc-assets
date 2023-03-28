@@ -20,10 +20,14 @@
   ],
   "packageRules": [
     {
-      "matchPackagePatterns": [
-        "^grpc"
-      ],
-      "groupName": "grpc"
+      "matchPackagePatterns": ["^grpc-tools"],
+      matchManagers: ["npm"],
+      "groupName": "npm grpc-tools"
+    },
+    {
+      "matchPackagePatterns": ["^grpc-tools"],
+      matchDepTypes: ["bundler"],
+      "groupName": "bundler grpc-tools"
     }
   ]
 }

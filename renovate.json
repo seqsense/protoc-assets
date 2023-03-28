@@ -17,5 +17,17 @@
       "depNameTemplate": "sgerrand/alpine-pkg-glibc",
       "versioningTemplate": "loose"
     }
+  ],
+  "packageRules": [
+    {
+      "matchPackagePatterns": ["^grpc-tools"],
+      "matchManagers": ["npm"],
+      "groupName": "npm grpc-tools"
+    },
+    {
+      "matchPackagePatterns": ["^grpc-tools"],
+      "matchManagers": ["bundler"],
+      "groupName": "bundler grpc-tools"
+    }
   ]
 }

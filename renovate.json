@@ -21,12 +21,12 @@
   "packageRules": [
     {
       "matchPackagePatterns": ["^grpc-tools"],
-      matchManagers: ["npm"],
+      "matchManagers": ["npm"],
       "groupName": "npm grpc-tools"
     },
     {
       "matchPackagePatterns": ["^grpc-tools"],
-      matchDepTypes: ["bundler"],
+      "matchManagers": ["bundler"],
       "groupName": "bundler grpc-tools"
     }
   ]

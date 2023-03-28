@@ -39,7 +39,8 @@ jobs:
           docker push ghcr.io/seqsense/protoc-assets:${IMAGE_TAG}
       - name: Write tool versions to release notes
         if: github.event_name == 'release'
-        env: 
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           IMAGE_TAG=${GITHUB_REF#refs/tags/}
           echo '## Tool versions' > ./notes

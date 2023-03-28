@@ -1,13 +1,13 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    grpc-tools (1.50.0)
+    grpc-tools (1.53.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  grpc-tools (= 1.50.0)
+  grpc-tools (= 1.53.0)
 
 BUNDLED WITH
    2.1.4

@@ -20,7 +20,7 @@ jobs:
       - name: Test protoc
         run: make test
       - name: Login to GitHub Container Registry
-        if: github.event_name == 'push'
+        if: github.event_name == 'push' || github.event_name == 'release'
         uses: docker/login-action@v2
         with:
           registry: ghcr.io

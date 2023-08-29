@@ -13,7 +13,7 @@ RUN --mount=type=cache,target=/etc/apk/cache,id=apk \
     ruby \
   && echo "common $(protoc --version)" >> /versions
 
-ARG GLIBC_VERSION=2.33-r0
+ARG GLIBC_VERSION=2.35-r1
 RUN  --mount=type=cache,target=/etc/apk/cache,id=apk \
   wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub \
   && wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk \

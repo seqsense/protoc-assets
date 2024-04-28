@@ -64,4 +64,9 @@ RUN  --mount=type=cache,target=/etc/apk/cache,id=apk \
     | sed -n 's|^/.*/grpc-tools-\(.*\)$|ruby grpc-tools \1|p'>> /versions \
   && apk del .builddeps
 
+RUN wget https://github.com/googleapis/googleapis/archive/refs/heads/master.tar.gz -O /tmp/googleapis.tar.gz \
+  && mkdir -p /protos/googleapis \
+  && tar xzfv /tmp/googleapis.tar.gz -C /protos/googleapis --strip-components 1 googleapis-master \
+  && rm -rf /tmp/googleapis.tar.gz
+
 WORKDIR /defs

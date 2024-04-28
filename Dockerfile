@@ -7,6 +7,7 @@ RUN --mount=type=cache,target=/etc/apk/cache,id=apk \
   apk add --no-cache \
     libstdc++ \
     nodejs \
+    protobuf-dev \
     protoc \
     py3-setuptools \
     python3 \

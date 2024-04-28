@@ -33,8 +33,13 @@ RUN  --mount=type=cache,target=/etc/apk/cache,id=apk \
     go \
   && go install google.golang.org/protobuf/cmd/protoc-gen-go \
   && go install google.golang.org/grpc/cmd/protoc-gen-go-grpc \
+  && go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway \
+  && go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2 \
+  && mkdir -p /protos/grpc-gateway \
+  && cp -r /go/pkg/mod/github.com/grpc-ecosystem/grpc-gateway/v2@*/protoc-gen-openapiv2 /protos/grpc-gateway/ \
   && echo "go $(protoc-gen-go --version)" >> /versions \
   && echo "go $(protoc-gen-go-grpc --version)" >> /versions \
+  && echo "go $(protoc-gen-openapiv2 --version)" >> /versions \
   && apk del .builddeps
 
 COPY package.json package-lock.json /

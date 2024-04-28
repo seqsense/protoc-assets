@@ -49,7 +49,7 @@ COPY requirements.txt /
 RUN  --mount=type=cache,target=/etc/apk/cache,id=apk \
   apk add --no-cache --virtual .builddeps \
     py3-pip \
-  && python3 -m pip install -r requirements.txt \
+  && python3 -m pip install --break-system-packages -r requirements.txt \
   && python3 -m pip show grpcio_tools \
     | sed -n 's/^Version: \(.*\)$/python grpcio_tools \1/p' >> /versions \
   && apk del .builddeps

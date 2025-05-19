@@ -5,6 +5,7 @@ FROM alpine:3.19
 # Install interpreter languages and tools
 RUN --mount=type=cache,target=/etc/apk/cache,id=apk \
   apk add --no-cache \
+    grpc-plugins \
     libstdc++ \
     nodejs \
     protobuf-dev \

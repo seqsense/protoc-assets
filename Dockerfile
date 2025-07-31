@@ -1,6 +1,6 @@
 # syntax = docker/dockerfile:1
 
-FROM alpine:3.19
+FROM alpine:3.22
 
 # Install interpreter languages and tools
 RUN --mount=type=cache,target=/etc/apk/cache,id=apk \

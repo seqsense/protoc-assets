@@ -1,20 +1,28 @@
 {
   "extends": [
-    "config:base"
+    "config:recommended"
   ],
   "postUpdateOptions": [
     "gomodTidy"
   ],
   "packageRules": [
     {
-      "matchPackagePatterns": ["^grpc-tools"],
-      "matchManagers": ["npm"],
-      "groupName": "npm grpc-tools"
+      "matchManagers": [
+        "npm"
+      ],
+      "groupName": "npm grpc-tools",
+      "matchPackageNames": [
+        "/^grpc-tools/"
+      ]
     },
     {
-      "matchPackagePatterns": ["^grpc-tools"],
-      "matchManagers": ["bundler"],
-      "groupName": "bundler grpc-tools"
+      "matchManagers": [
+        "bundler"
+      ],
+      "groupName": "bundler grpc-tools",
+      "matchPackageNames": [
+        "/^grpc-tools/"
+      ]
     }
   ]
 }

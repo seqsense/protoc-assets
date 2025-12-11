@@ -1,6 +1,8 @@
 {
   "name": "protoc-assets",
   "dependencies": {
-    "grpc-tools": "1.13.0"
+    "grpc-tools": "1.13.0",
+    "ts-proto": "2.8.3",
+    "typescript": "5.9.3"
   }
 }

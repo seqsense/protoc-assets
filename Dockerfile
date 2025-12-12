@@ -50,6 +50,7 @@ RUN  --mount=type=cache,target=/etc/apk/cache,id=apk \
     npm \
   && npm install \
   && echo "node grpc-tools $(npm view grpc-tools version)" >> /versions \
+  && echo "node ts-proto $(npm view ts-proto version)" >> /versions \
   && apk del .builddeps
 
 COPY requirements.txt /

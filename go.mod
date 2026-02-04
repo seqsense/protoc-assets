@@ -1,13 +1,13 @@
 module github.com/seqsense/protoc-assets
 
-go 1.23.0
+go 1.24.0
 
 toolchain go1.24.5
 
 require (
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.27.1
-	google.golang.org/grpc/cmd/protoc-gen-go-grpc v1.5.1
-	google.golang.org/protobuf v1.36.6
+	google.golang.org/grpc/cmd/protoc-gen-go-grpc v1.6.1
+	google.golang.org/protobuf v1.36.11
 )
 
 require (

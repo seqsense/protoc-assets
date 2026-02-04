@@ -2,7 +2,7 @@ module github.com/seqsense/protoc-assets
 
 go 1.23.0
 
-toolchain go1.24.5
+toolchain go1.25.7
 
 require (
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.27.1
